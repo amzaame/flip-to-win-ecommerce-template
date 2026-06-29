@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flip to Win — Template</title>
+</head>
+<body>
+
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║           FLIP TO WIN — FREE BRAND TEMPLATE                      ║
+║                                                                  ║
+║  HOW TO USE                                                      ║
+║  1. Edit the CONFIG block below (colors, logo, offers, etc.)     ║
+║  2. Drop your logo PNG and product PNG in the same folder        ║
+║  3. Open this file in a browser — done!                          ║
+║                                                                  ║
+║  HOW TO SHARE                                                    ║
+║  - Upload this single HTML file anywhere (Netlify, Vercel,       ║
+║    GitHub Pages, Shopify page, etc.)                             ║
+║  - No build step, no dependencies, no server needed              ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
+
+<script>
+/* ================================================================
+   BRAND CONFIG — edit everything here, nothing else needs changing
+   ================================================================ */
+const CONFIG = {
+
+  /* ── Page language & copy ──────────────────────────────────── */
+  headingText:  "Pick a Card",
+  subheading:   "Every card hides an exclusive offer",
+  congratsText: "All your offers are unlocked!",
+  ctaLabel:     "Claim my offers →",
+  ctaIcon:      "✦",
+
+  /* ── Redirect URL ───────────────────────────────────────────── */
+  /* Where the CTA button sends the user (your Shopify page, etc.) */
+  redirectUrl:  "https://your-store.com/landing-page",
+
+  /* ── Logo ───────────────────────────────────────────────────── */
+  /* Path to your logo file, e.g. "logo.png" (place it next to
+     this HTML file). Or use a full URL.
+     Leave "" to show a "YOUR LOGO" placeholder box.               */
+  logoSrc: "",
+  logoAlt: "Your Brand",
+
+  /* ── Custom font (optional) ─────────────────────────────────── */
+  /* Paste a Google Fonts stylesheet URL to load a custom font.
+     Example:
+       googleFontUrl: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
+       fontFamily:    "Montserrat"
+     Leave both as "" to use the system default font.              */
+  googleFontUrl: "",
+  fontFamily:    "",
+
+  /* ── Colors ─────────────────────────────────────────────────── */
+  colors: {
+    pageBg:           "#FFFFFF",  /* page background              */
+    heading:          "#0A0A0A",  /* heading & body text          */
+    subtext:          "#888888",  /* subheading & counter text    */
+    accent:           "#0A0A0A",  /* congrats line color          */
+    cardBack:         "#FF6B35",  /* ← MAIN BRAND COLOR (card bg) */
+    cardBackText:     "rgba(255,255,255,0.4)", /* placeholder text */
+    offerCardBg:      "#FFFFFF",  /* revealed offer card bg       */
+    offerCardBorder:  "#0A0A0A",  /* revealed offer card border   */
+    offerCardText:    "#0A0A0A",  /* text on revealed offer card  */
+    doneCardBg:       "#F4F4F4",  /* auto-flipped card bg         */
+    doneCardBorder:   "#E0E0E0",
+    doneCardMark:     "#BBBBBB",
+    ctaBg:            "#0A0A0A",  /* CTA button background        */
+    ctaText:          "#FFFFFF",  /* CTA button text              */
+  },
+
+  /* ── Card back image ────────────────────────────────────────── */
+  /* Your product photo shown face-down on every card.
+     Use a PNG for best results. e.g. "product.png"
+     Leave "" to show the "YOUR PRODUCT" dashed placeholder.       */
+  cardBackImage: "",
+
+  /* ── Grid ───────────────────────────────────────────────────── */
+  /* Total cards on screen. Must be >= number of offers below.
+     Recommended: 9 (3×3) or 6 (2×3). Remaining cards auto-flip
+     when all offers are found.                                     */
+  totalCards: 9,
+
+  /* ── Offers ─────────────────────────────────────────────────── */
+  /*
+     Each offer = one card the player clicks to reveal.
+     Offers are revealed in a random order (shuffled each load).
+     Once ALL offers are found, remaining cards flip automatically.
+
+     Fields per offer:
+       label    — main offer text shown on the revealed card
+       sublabel — optional small print (condition, promo code…)
+       icon     — path to a PNG icon/product image, e.g. "icons/gift.png"
+                  Leave "" to use the emoji fallback instead
+       emoji    — shown when icon is empty
+  */
+  offers: [
+    {
+      label:    "Offer 1",
+      sublabel: "Your offer details here",
+      icon:     "",       /* e.g. "icons/offer1.png" */
+      emoji:    "🎁",
+    },
+    {
+      label:    "Offer 2",
+      sublabel: "Your offer details here",
+      icon:     "",
+      emoji:    "🚚",
+    },
+    {
+      label:    "Offer 3",
+      sublabel: "Your offer details here",
+      icon:     "",
+      emoji:    "🏷",
+    },
+    {
+      label:    "Offer 4",
+      sublabel: "Your offer details here",
+      icon:     "",
+      emoji:    "✨",
+    },
+  ],
+
+};
+/* ================================================================ */
+</script>
+
+<style id="dyn"></style>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 80px;
+  overflow-x: hidden;
+}
+
+.logo-wrap {
+  margin-bottom: 16px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-wrap img { height: 40px; object-fit: contain; filter: brightness(0); }
+.logo-placeholder {
+  padding: 10px 24px;
+  border: 1.5px dashed #ccc;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #bbb;
+}
+
+h1 {
+  font-size: clamp(28px, 7vw, 52px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.05;
+  margin-bottom: 6px;
+}
+.subheading {
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 18px;
+  transition: opacity 0.3s;
+}
+
+.counter-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.counter-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #ccc;
+  background: transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+.counter-dot.found { border-color: #0A0A0A; background: #0A0A0A; }
+
+.counter-text {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.counter-text .n { font-weight: 900; }
+
+.congrats {
+  font-size: clamp(13px, 3.5vw, 18px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s;
+  margin-bottom: 20px;
+  min-height: 22px;
+}
+.congrats.show { opacity: 1; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 26px;
+}
+
+.card-wrap {
+  perspective: 900px;
+  aspect-ratio: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-wrap.done { cursor: default; }
+
+.card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.52s cubic-bezier(0.45, 0, 0.25, 1.15);
+  border-radius: 16px;
+}
+.card-wrap.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute; inset: 0;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+}
+.card-back { padding: 0; }
+.card-front { padding: 10px; }
+
+.card-back {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+  transition: transform 0.13s ease, box-shadow 0.12s ease;
+}
+.card-wrap:not(.flipped):not(.done):hover .card-back {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+}
+.card-back img.back-img {
+  width: 84%; height: 84%;
+  object-fit: cover;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.back-placeholder {
+  width: 70%; height: 70%;
+  border: 2px dashed rgba(255,255,255,0.35);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.6px; text-transform: uppercase;
+  text-align: center; white-space: pre-line; line-height: 1.5;
+}
+
+.card-front {
+  transform: rotateY(180deg);
+  gap: 5px;
+  border-width: 1.5px;
+  border-style: solid;
+}
+.offer-emoji  { font-size: clamp(24px, 6.5vw, 34px); line-height: 1; }
+.offer-label  {
+  font-size: clamp(9px, 2.2vw, 12px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.25;
+}
+.offer-sub {
+  font-size: clamp(7.5px, 1.8vw, 10px);
+  font-weight: 500;
+  opacity: 0.55;
+  line-height: 1.2;
+}
+.offer-img-el {
+  width: 50%; height: 48%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.icon-placeholder {
+  width: 50%; height: 44%;
+  border: 1.5px dashed rgba(0,0,0,0.15);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; text-align: center;
+  white-space: pre-line; line-height: 1.5;
+  color: rgba(0,0,0,0.3);
+}
+
+.done-check {
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1;
+  opacity: 0.5;
+}
+
+/* Wiggle */
+@keyframes wiggle {
+  0%   { transform: rotate(0deg) scale(1); }
+  15%  { transform: rotate(-4deg) scale(1.03); }
+  35%  { transform: rotate(4deg) scale(1.03); }
+  55%  { transform: rotate(-2.5deg) scale(1.01); }
+  75%  { transform: rotate(2.5deg) scale(1.01); }
+  90%  { transform: rotate(-1deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+.card-wrap.wiggling .card-back {
+  animation: wiggle 0.55s ease both;
+}
+
+/* Offer reveal pop */
+@keyframes offer-pop {
+  0%   { transform: rotateY(180deg) scale(1); }
+  55%  { transform: rotateY(180deg) scale(1.07); }
+  80%  { transform: rotateY(180deg) scale(0.97); }
+  100% { transform: rotateY(180deg) scale(1); }
+}
+.card-wrap.offer-reveal .card-inner {
+  animation: offer-pop 0.4s ease 0.46s both;
+}
+
+#cta-btn {
+  display: none;
+  border: none;
+  border-radius: 4px;
+  padding: 16px 36px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 400px;
+  width: 100%;
+  transition: opacity 0.15s, transform 0.1s;
+}
+#cta-btn.visible { display: flex; }
+#cta-btn:hover   { opacity: 0.88; transform: translateY(-1px); }
+#cta-btn:active  { transform: scale(0.98); }
+
+#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+</style>
+
+<canvas id="confetti"></canvas>
+
+<div class="logo-wrap" id="logo-wrap"></div>
+<h1 id="heading"></h1>
+<p class="subheading" id="subheading"></p>
+<div class="counter-row" id="counter-dots"></div>
+<p class="counter-text" id="counter-text">
+  <span id="found-n" class="n">0</span> / <span id="total-n" class="n"></span> offers found
+</p>
+<p class="congrats" id="congrats"></p>
+<div class="grid" id="card-grid"></div>
+<a id="cta-btn" href="#" target="_blank" rel="noopener">
+  <span id="cta-icon-el"></span>
+  <span id="cta-label-el"></span>
+</a>
+
+<script>
+(function boot() {
+  const C = CONFIG, co = C.colors;
+
+  if (C.googleFontUrl) {
+    const l = document.createElement("link");
+    l.rel = "stylesheet"; l.href = C.googleFontUrl;
+    document.head.appendChild(l);
+  }
+  const ff = C.fontFamily ? `'${C.fontFamily}',sans-serif` : "inherit";
+
+  document.getElementById("dyn").textContent = `
+    body { background:${co.pageBg}; font-family:${ff}; color:${co.heading}; }
+    h1   { color:${co.heading}; }
+    .subheading { color:${co.subtext}; }
+    .counter-text { color:${co.subtext}; }
+    .counter-text .n { color:${co.heading}; }
+    .congrats { color:${co.accent}; }
+    .card-back { background:${co.cardBack}; }
+    .back-placeholder { color:${co.cardBackText}; }
+    .card-front.is-offer { background:${co.offerCardBg}; border-color:${co.offerCardBorder}; }
+    .offer-label, .offer-sub { color:${co.offerCardText}; }
+    .card-front.is-done { background:${co.doneCardBg}; border-color:${co.doneCardBorder}; }
+    .done-check { color:${co.doneCardMark}; }
+    #cta-btn { background:${co.ctaBg}; color:${co.ctaText}; }
+    .counter-dot.found { border-color:${co.heading}; background:${co.heading}; }
+  `;
+
+  document.getElementById("heading").textContent      = C.headingText;
+  document.getElementById("subheading").textContent   = C.subheading;
+  document.getElementById("congrats").textContent     = C.congratsText;
+  document.getElementById("cta-icon-el").textContent  = C.ctaIcon;
+  document.getElementById("cta-label-el").textContent = C.ctaLabel;
+  document.getElementById("cta-btn").href             = C.redirectUrl;
+  document.getElementById("total-n").textContent      = C.offers.length;
+
+  const logoWrap = document.getElementById("logo-wrap");
+  if (C.logoSrc) {
+    const img = document.createElement("img");
+    img.src = C.logoSrc; img.alt = C.logoAlt;
+    logoWrap.appendChild(img);
+  } else {
+    const ph = document.createElement("div");
+    ph.className = "logo-placeholder"; ph.textContent = "Your Logo";
+    logoWrap.appendChild(ph);
+  }
+
+  const dotsRow = document.getElementById("counter-dots");
+  const dots = [];
+  for (let i = 0; i < C.offers.length; i++) {
+    const d = document.createElement("div");
+    d.className = "counter-dot";
+    dotsRow.appendChild(d); dots.push(d);
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  const shuffledOffers = shuffle(C.offers);
+  let found = 0;
+  const total = C.offers.length;
+  const allCards = [];
+
+  const grid = document.getElementById("card-grid");
+  for (let i = 0; i < C.totalCards; i++) {
+    const wrap = document.createElement("div");
+    wrap.className = "card-wrap";
+
+    const back = document.createElement("div");
+    back.className = "card-face card-back";
+    if (C.cardBackImage) {
+      const img = document.createElement("img");
+      img.className = "back-img"; img.src = C.cardBackImage; img.alt = "";
+      back.appendChild(img);
+    } else {
+      const ph = document.createElement("div");
+      ph.className = "back-placeholder"; ph.textContent = "YOUR\nPRODUCT";
+      back.appendChild(ph);
+    }
+
+    const front = document.createElement("div");
+    front.className = "card-face card-front";
+
+    const inner = document.createElement("div");
+    inner.className = "card-inner";
+    inner.appendChild(back); inner.appendChild(front);
+    wrap.appendChild(inner);
+    wrap.addEventListener("click", () => onCardClick(wrap, front));
+    grid.appendChild(wrap);
+    allCards.push({ wrap, front });
+  }
+
+  /* Staggered wiggle — on load and every 5s */
+  function runWiggle() {
+    allCards.forEach(({ wrap }, i) => {
+      if (wrap.classList.contains("flipped")) return;
+      setTimeout(() => {
+        wrap.classList.add("wiggling");
+        wrap.addEventListener("animationend", () => wrap.classList.remove("wiggling"), { once: true });
+      }, i * 80);
+    });
+  }
+  setTimeout(runWiggle, 600);
+  setInterval(runWiggle, 5000);
+
+  function onCardClick(wrap, front) {
+    if (wrap.classList.contains("flipped") || wrap.classList.contains("done")) return;
+    wrap.classList.add("flipped", "done");
+
+    if (found < total) {
+      const offer = shuffledOffers[found];
+      buildOfferFront(front, offer);
+      front.classList.add("is-offer");
+      wrap.classList.add("offer-reveal");
+      found++;
+      document.getElementById("found-n").textContent = found;
+      dots[found - 1].classList.add("found");
+      if (found === total) setTimeout(triggerEnd, 700);
+    } else {
+      buildDoneFront(front);
+      front.classList.add("is-done");
+    }
+  }
+
+  function buildOfferFront(front, offer) {
+    front.innerHTML = "";
+    if (offer.icon) {
+      const img = document.createElement("img");
+      img.className = "offer-img-el"; img.src = offer.icon; img.alt = offer.label || "";
+      front.appendChild(img);
+    } else if (offer.emoji) {
+      const em = document.createElement("span");
+      em.className = "offer-emoji"; em.textContent = offer.emoji;
+      front.appendChild(em);
+    } else {
+      const ph = document.createElement("div");
+      ph.className = "icon-placeholder"; ph.textContent = "YOUR\nICON";
+      front.appendChild(ph);
+    }
+    const lbl = document.createElement("span");
+    lbl.className = "offer-label"; lbl.textContent = offer.label;
+    front.appendChild(lbl);
+    if (offer.sublabel) {
+      const sub = document.createElement("span");
+      sub.className = "offer-sub"; sub.textContent = offer.sublabel;
+      front.appendChild(sub);
+    }
+  }
+
+  function buildDoneFront(front) {
+    front.innerHTML = "";
+    const mark = document.createElement("span");
+    mark.className = "done-check"; mark.textContent = "✓";
+    front.appendChild(mark);
+  }
+
+  function triggerEnd() {
+    allCards.forEach(({ wrap, front }) => {
+      if (!wrap.classList.contains("flipped")) {
+        buildDoneFront(front);
+        front.classList.add("is-done");
+        wrap.classList.add("flipped", "done");
+      }
+    });
+    setTimeout(() => {
+      document.getElementById("subheading").style.opacity = "0";
+      document.getElementById("counter-dots").style.display = "none";
+      document.getElementById("counter-text").style.display = "none";
+      document.getElementById("congrats").classList.add("show");
+      document.getElementById("cta-btn").classList.add("visible");
+      launchConfetti();
+    }, 400);
+  }
+})();
+
+function launchConfetti() {
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colors = [
+    CONFIG.colors.cardBack, CONFIG.colors.ctaBg,
+    "#FFD700", "#ffffff", "#cccccc", "#ff8b94"
+  ];
+  const pieces = Array.from({ length: 160 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height * 0.5,
+    w: 7 + Math.random() * 9, h: 3 + Math.random() * 7,
+    angle: Math.random() * Math.PI * 2,
+    spin: (Math.random() - 0.5) * 0.17,
+    vx: (Math.random() - 0.5) * 3.5,
+    vy: 2.5 + Math.random() * 4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    opacity: 1,
+  }));
+  let raf;
+  (function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.angle += p.spin;
+      if (p.y > canvas.height) p.opacity = Math.max(0, p.opacity - 0.04);
+      if (p.opacity > 0) alive = true;
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (alive) raf = requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })();
+  setTimeout(() => { cancelAnimationFrame(raf); ctx.clearRect(0, 0, canvas.width, canvas.height); }, 5500);
+}
+</script>
+</body>
+</html>
