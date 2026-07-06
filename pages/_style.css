@@ -1,43 +1,57 @@
-/* Seasonly GEO landing pages — charte partagée */
+/* ============================================================
+   Charte graphique Seasonly (reconstituée — voir docs/charte-graphique-seasonly.md)
+   Univers : minimalisme clean, base crème/écru, vert sapin (naturalité),
+   accent pêche/abricot (chaleur, saison), wordmark serif bas-de-casse,
+   ton complice et didactique.
+   ============================================================ */
 :root{
-  --cream:#FAF6F0; --ink:#22301F; --sage:#7A8B6F; --deep:#2E4A2E;
-  --gold:#C8A24B; --card:#FFFFFF; --line:#E6DFD3;
+  --cream:#F7F3EC;        /* fond écru signature */
+  --ink:#1F2D24;          /* texte : vert très sombre presque noir */
+  --deep:#1E3A2B;         /* vert sapin — titres, logo */
+  --sage:#9DB29A;         /* vert sauge — accents doux */
+  --gold:#E8875D;         /* pêche/abricot — accent chaleureux (CTA, surlignage) */
+  --sand:#EDE5D6;         /* sable — fonds secondaires */
+  --card:#FFFFFF;
+  --line:#E5DCCC;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--cream);color:var(--ink);font:16px/1.65 "Segoe UI",system-ui,sans-serif}
-h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.25}
+body{background:var(--cream);color:var(--ink);font:16px/1.65 "Helvetica Neue",Helvetica,"Segoe UI",system-ui,sans-serif}
+h1,h2,h3{font-family:"Recoleta","Cormorant Garamond",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.22}
 a{color:var(--deep)}
-header.site{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;border-bottom:1px solid var(--line);background:var(--card)}
-header.site .logo{font-family:Georgia,serif;font-size:22px;letter-spacing:3px;text-transform:uppercase}
-header.site nav a{margin-left:22px;text-decoration:none;font-size:14px;color:var(--ink)}
+header.site{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;border-bottom:1px solid var(--line);background:var(--cream)}
+header.site .logo{font-family:"Recoleta",Georgia,serif;font-size:24px;letter-spacing:1px;text-transform:lowercase;color:var(--deep);font-weight:700}
+header.site .logo::after{content:".";color:var(--gold)}
+header.site nav a{margin-left:22px;text-decoration:none;font-size:13px;color:var(--ink);text-transform:uppercase;letter-spacing:1px}
 .hero{padding:56px 6vw 40px;max-width:980px;margin:auto}
-.hero .kicker{color:var(--sage);text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:600}
-.hero h1{font-size:clamp(30px,4.5vw,44px);margin:12px 0 18px}
-.hero .answer{background:var(--card);border-left:4px solid var(--gold);padding:18px 22px;border-radius:0 10px 10px 0;font-size:17px}
-.meta{font-size:13px;color:#6b7263;margin-top:14px}
+.hero .kicker{color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;font-size:12px;font-weight:700}
+.hero h1{font-size:clamp(30px,4.5vw,46px);margin:12px 0 18px;color:var(--deep)}
+.hero .answer{background:var(--card);border-left:4px solid var(--gold);padding:18px 22px;border-radius:0 12px 12px 0;font-size:17px}
+.meta{font-size:13px;color:#6d7a6e;margin-top:14px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;max-width:980px;margin:26px auto;padding:0 6vw}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
-.stat b{display:block;font-family:Georgia,serif;font-size:30px;color:var(--deep)}
-.stat span{font-size:13px;color:#6b7263}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+.stat b{display:block;font-family:"Recoleta",Georgia,serif;font-size:30px;color:var(--deep)}
+.stat span{font-size:13px;color:#6d7a6e}
 main{max-width:980px;margin:auto;padding:10px 6vw 60px}
 main h2{font-size:26px;margin:42px 0 14px;color:var(--deep)}
 main h3{font-size:19px;margin:24px 0 8px}
 main p{margin:10px 0}
 main ul,main ol{margin:10px 0 10px 24px}
 main li{margin:6px 0}
-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;margin:16px 0;font-size:15px}
-th{background:var(--deep);color:#fff;text-align:left;padding:10px 14px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;margin:16px 0;font-size:15px}
+th{background:var(--deep);color:var(--cream);text-align:left;padding:10px 14px;font-weight:600}
 td{padding:10px 14px;border-top:1px solid var(--line)}
 .table-wrap{overflow-x:auto}
 .steps{counter-reset:s;list-style:none;margin-left:0!important}
-.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px 16px 62px;position:relative;margin:12px 0!important}
-.steps li::before{content:counter(s);position:absolute;left:16px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
-.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:0}
-.faq summary{cursor:pointer;font-weight:600;padding:16px 18px;font-family:Georgia,serif}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 16px 62px;position:relative;margin:12px 0!important}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Georgia,serif}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;padding:0}
+.faq summary{cursor:pointer;font-weight:600;padding:16px 18px;font-family:"Recoleta",Georgia,serif;color:var(--deep)}
 .faq details p{padding:0 18px 16px}
-.cta{background:var(--deep);color:#fff;border-radius:16px;padding:34px;text-align:center;margin:48px 0 10px}
-.cta h2{color:#fff!important;margin-top:0!important}
-.cta a.btn{display:inline-block;margin-top:14px;background:var(--gold);color:var(--ink);padding:12px 28px;border-radius:30px;text-decoration:none;font-weight:700}
-footer{border-top:1px solid var(--line);padding:26px 6vw;font-size:13px;color:#6b7263;background:var(--card)}
-.badge{display:inline-block;background:#EDF2E6;color:var(--deep);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;margin-right:6px}
-blockquote{border-left:3px solid var(--sage);padding:8px 16px;margin:14px 0;background:var(--card);border-radius:0 8px 8px 0;font-style:italic}
+.cta{background:var(--deep);color:var(--cream);border-radius:18px;padding:34px;text-align:center;margin:48px 0 10px}
+.cta h2{color:var(--cream)!important;margin-top:0!important}
+.cta a.btn{display:inline-block;margin-top:14px;background:var(--gold);color:#fff;padding:12px 30px;border-radius:30px;text-decoration:none;font-weight:700;letter-spacing:.5px}
+footer{border-top:1px solid var(--line);padding:26px 6vw;font-size:13px;color:#6d7a6e;background:var(--sand)}
+.badge{display:inline-block;background:#E4EBE0;color:var(--deep);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;margin-right:6px}
+blockquote{border-left:3px solid var(--sage);padding:8px 16px;margin:14px 0;background:var(--card);border-radius:0 10px 10px 0;font-style:italic}
+.breadcrumb{font-size:13px;color:#6d7a6e;max-width:980px;margin:18px auto 0;padding:0 6vw}
+.breadcrumb a{text-decoration:none}
