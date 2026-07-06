@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seasonly × GEO — Pitch deck</title>
+<style>
+:root{--cream:#FAF6F0;--ink:#22301F;--sage:#7A8B6F;--deep:#2E4A2E;--gold:#C8A24B;--card:#fff;--line:#E6DFD3}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ink);font:16px/1.55 "Segoe UI",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+.slide{display:none;position:absolute;inset:0;background:var(--cream);padding:5vh 7vw;flex-direction:column;justify-content:center;overflow-y:auto}
+.slide.active{display:flex}
+.kicker{color:var(--sage);text-transform:uppercase;letter-spacing:3px;font-size:13px;font-weight:700;margin-bottom:12px}
+h1{font-family:Georgia,serif;font-size:clamp(34px,5vw,58px);color:var(--deep);line-height:1.15;margin-bottom:18px}
+h2{font-family:Georgia,serif;font-size:clamp(26px,3.4vw,40px);color:var(--deep);margin-bottom:22px}
+h3{font-family:Georgia,serif;font-size:20px;margin-bottom:8px;color:var(--deep)}
+p.lead{font-size:clamp(17px,1.6vw,21px);max-width:56ch}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card .big{font-family:Georgia,serif;font-size:34px;color:var(--deep);display:block}
+.card small{color:#6b7263}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;margin-top:16px;font-size:14px}
+th{background:var(--deep);color:#fff;text-align:left;padding:9px 12px}
+td{padding:8px 12px;border-top:1px solid var(--line)}
+.tag{display:inline-block;background:#EDF2E6;color:var(--deep);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;margin:2px 4px 2px 0}
+.no{color:#B0432F;font-weight:700}.yes{color:var(--deep);font-weight:700}
+.footer{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 24px;background:var(--deep);color:#fff;font-size:13px;z-index:10}
+.footer button{background:var(--gold);border:0;border-radius:20px;padding:6px 18px;font-weight:700;cursor:pointer;margin-left:8px}
+ol.actions{list-style:none;counter-reset:a;margin-top:10px}
+ol.actions li{counter-increment:a;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 16px 64px;position:relative;margin:12px 0;max-width:900px}
+ol.actions li::before{content:counter(a);position:absolute;left:16px;top:16px;width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Georgia,serif}
+code{background:#EDEAE2;padding:2px 7px;border-radius:6px;font-size:13px}
+.quote{border-left:4px solid var(--gold);background:var(--card);padding:14px 18px;border-radius:0 10px 10px 0;margin-top:18px;font-style:italic;max-width:70ch}
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide active">
+  <div class="kicker">Projet SEO × GEO · Juillet 2026</div>
+  <h1>Seasonly<br><span style="color:var(--gold)">Exister dans les réponses des IA</span></h1>
+  <p class="lead">Comment une marque pionnière du facialisme, absente des SERP et des réponses de ChatGPT, Perplexity et Claude, peut devenir <strong>la source que les IA citent</strong> — en 3 actions, 6 pages et 1 robot éditorial.</p>
+  <p style="margin-top:26px"><span class="tag">Analyse SERP/GEO</span><span class="tag">6 landing pages vibecodées</span><span class="tag">Workflow Make</span><span class="tag">KPIs</span></p>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">1 · La marque</div>
+  <h2>Seasonly : forte en studio, invisible en ligne (hors marque)</h2>
+  <div class="cols">
+    <div class="card"><span class="big">2018</span><small>Fondée par Fany Péchiodat — skincare naturelle (95 %), vegan</small></div>
+    <div class="card"><span class="big">2</span><small>moteurs de business : e-commerce + Skin Studios (facialisme)</small></div>
+    <div class="card"><span class="big">100</span><small>studios visés en Europe d'ici 2027 (Paris, Aix, Bordeaux, Nice…)</small></div>
+    <div class="card"><span class="big">≈ 0 %</span><small>de visibilité sur les requêtes génériques testées (Google + IA)</small></div>
+  </div>
+  <div class="quote">Le problème : les clients découvrent la catégorie (« kobido », « gua sha », « notox ») <strong>avant</strong> de découvrir la marque — et de plus en plus via un chatbot. Sur ces requêtes, Seasonly n'existe pas.</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">2 · Diagnostic GEO</div>
+  <h2>Qui est cité à la place de Seasonly ?</h2>
+  <table>
+    <tr><th>Requête testée</th><th>Seasonly ?</th><th>Cités à la place</th></tr>
+    <tr><td>meilleur soin visage institut Paris</td><td class="no">Absente</td><td>Planity, Treatwell, Funbooker + instituts optimisés</td></tr>
+    <tr><td>massage kobido Paris</td><td class="yes">Partielle</td><td>Resalib, blogs concurrents, indépendantes (prix cités : 130-180 €)</td></tr>
+    <tr><td>meilleure marque cosmétique naturelle FR</td><td class="no">Absente</td><td>Blogs affiliés « Top 15 », Melvita, marques qui s'auto-publient</td></tr>
+    <tr><td>anti-âge sans injection / botox naturel</td><td class="no">Absente</td><td>Aroma-Zone, blogs de cliniques — alors que c'est SON territoire</td></tr>
+    <tr><td>gua sha bienfaits + utilisation</td><td class="no">Absente</td><td>NIVEA, Mademoiselle bio… alors que Seasonly en VEND</td></tr>
+  </table>
+  <p style="margin-top:14px"><strong>1 requête sur 5</strong> mentionne la marque — et uniquement via des articles tiers, jamais via son propre site.</p>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">2 · Diagnostic GEO</div>
+  <h2>Pourquoi EUX sont cités : les 7 patterns</h2>
+  <div class="cols">
+    <div class="card"><h3>📋 Listicles chiffrés</h3><small>« Top 20 », « 5 meilleures adresses » : la réponse est pré-mâchée pour l'IA</small></div>
+    <div class="card"><h3>🔢 Données précises</h3><small>Prix (130 €/1 h), notes (4,9/5), volumes (2 000 avis) = faits citables</small></div>
+    <div class="card"><h3>🧱 Structure extractible</h3><small>H2/H3, étapes numérotées, tableaux, FAQ : chunks parfaits pour le RAG</small></div>
+    <div class="card"><h3>🎓 E-E-A-T</h3><small>« avis dermatologue », auteur identifié, « on a testé »</small></div>
+    <div class="card"><h3>📅 Fraîcheur affichée</h3><small>Millésime dans le titre (2026), date de mise à jour visible</small></div>
+    <div class="card"><h3>🏛️ Autorité d'agrégateur</h3><small>Planity/Treatwell : avis structurés + schema LocalBusiness</small></div>
+    <div class="card"><h3>🎯 Réponse en 1er ¶</h3><small>La définition directe en tête de page devient LE snippet cité</small></div>
+    <div class="card" style="background:var(--deep);color:#fff"><h3 style="color:var(--gold)">Conclusion</h3><small style="color:#fff">Les IA ne citent pas « le meilleur » : elles citent <strong>le plus facile à extraire</strong> — et accessible aux crawlers.</small></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">3 · Stratégie</div>
+  <h2>3 actions pour entrer dans les réponses</h2>
+  <ol class="actions">
+    <li><strong>Owned — Hub de contenu citable.</strong> 6 pages guides appliquant les 7 patterns : réponse directe, chiffres, FAQ, JSON-LD (FAQPage, HowTo, LocalBusiness), date et auteur. → <em>démo Step 2</em></li>
+    <li><strong>Earned — Autorité tierce.</strong> Fiches Planity/Treatwell/Google Business optimisées (viser 4,8+/5), présence dans 10 listicles « meilleur kobido/facialiste », RP presse beauté (les sources que les IA croisent).</li>
+    <li><strong>Tech — Infrastructure GEO.</strong> robots.txt ouvert aux bots IA + llms.txt + schema.org partout + flux de fraîcheur automatisé. → <em>démo Step 3</em></li>
+  </ol>
+  <div class="quote"><strong>L'enjeu robots.txt</strong> : bloquer <code>GPTBot</code>, <code>ClaudeBot</code>, <code>PerplexityBot</code>, <code>Google-Extended</code> protège le contenu des médias — mais condamne une PME à l'invisibilité. Pour Seasonly : <strong>être crawlé = être cité = exister</strong>. On ouvre tout, sauf le tunnel d'achat (<code>/cart</code>, <code>/checkout</code>, <code>/account</code>).</div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">4 · Vibecoding</div>
+  <h2>6 pages construites, chacune vise une requête perdue</h2>
+  <table>
+    <tr><th>Page</th><th>Requête cible</th><th>Armes GEO embarquées</th></tr>
+    <tr><td>Le facialisme, c'est quoi ?</td><td>définition de la catégorie</td><td>DefinedTerm + FAQ — devenir LA page de référence de l'entité</td></tr>
+    <tr><td>Massage kobido à Paris</td><td>kobido paris (R2)</td><td>LocalBusiness, comparatif honnête avec prix concurrents</td></tr>
+    <tr><td>Gua sha : guide complet</td><td>gua sha utilisation (R5)</td><td>HowTo 4 étapes, tableau d'erreurs, chiffres (15°, 5 min)</td></tr>
+    <tr><td>Anti-âge sans injection</td><td>botox naturel (R4)</td><td>Honnêteté E-E-A-T (« rien ne remplace le botox, mais… »)</td></tr>
+    <tr><td>Routine visage par saison</td><td>routine skincare</td><td>ADN de marque + mise à jour trimestrielle = fraîcheur</td></tr>
+    <tr><td>Meilleur soin visage Paris</td><td>meilleur soin paris (R1)</td><td>ItemList, comparatif 5 formats avec prix 30-180 €</td></tr>
+  </table>
+  <p style="margin-top:12px">+ page hub <code>index.html</code> + <code>llms.txt</code> — le tout avec réponse directe en 1er paragraphe, stats, FAQ, JSON-LD, date de mise à jour sur chaque page.</p>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">5 · Automatisation Make</div>
+  <h2>Le robot éditorial : 1 article toutes les 30 minutes</h2>
+  <p class="lead" style="margin-bottom:14px"><code>Schedule 30 min</code> → <code>Sheets : prochain sujet « À générer »</code> → <code>Claude : article JSON</code> → <code>Google Doc</code> → <code>Sheets : maj ligne</code> → <code>Gmail + Telegram</code></p>
+  <table>
+    <tr><th>Titre</th><th>Résumé</th><th>Mots clés</th><th>Objectif</th><th>Date de création</th><th>Statut</th></tr>
+    <tr><td>Bakuchiol vs rétinol : le match</td><td>Généré par l'IA (3 phrases)</td><td>bakuchiol, rétinol…</td><td>GEO citation</td><td>06/07/2026 14:30</td><td>Généré</td></tr>
+    <tr><td>Kobido à Bordeaux : le guide</td><td>—</td><td>—</td><td>SEO local</td><td>—</td><td>À générer</td></tr>
+  </table>
+  <div class="cols" style="margin-top:14px">
+    <div class="card"><span class="big">48</span><small>articles/jour possibles en démo (30 min) — 1/jour recommandé en prod</small></div>
+    <div class="card"><span class="big">100 %</span><small>human-in-the-loop : rien ne se publie sans relecture (statut « Relu » → « Publié »)</small></div>
+    <div class="card"><span class="big">7</span><small>patterns GEO encodés dans le system prompt (chiffres, FAQ, réponse directe…)</small></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">6 · Résultats attendus</div>
+  <h2>KPIs : comment on saura que ça marche</h2>
+  <table>
+    <tr><th>KPI</th><th>Baseline (07/2026)</th><th>Objectif 6 mois</th><th>Mesure</th></tr>
+    <tr><td>Part de voix IA (5 requêtes × 3 IA)</td><td>~10 %</td><td>60 %</td><td>Grille de test mensuelle (ChatGPT, Perplexity, Claude)</td></tr>
+    <tr><td>Citations tierces (listicles, presse)</td><td>2</td><td>10</td><td>Veille mentions</td></tr>
+    <tr><td>Trafic référent IA</td><td>≈ 0</td><td>500 sessions/mois</td><td>GA4 (chatgpt.com, perplexity.ai)</td></tr>
+    <tr><td>Positions Google R1-R5</td><td>Non classé</td><td>Top 10 sur 3/5</td><td>Search Console</td></tr>
+    <tr><td>Réservations studio via organique</td><td>baseline à poser</td><td>+20 %</td><td>UTM + module résa</td></tr>
+  </table>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">7 · Démo live</div>
+  <h2>Ce qu'on vous montre maintenant</h2>
+  <ol class="actions">
+    <li><strong>Le test IA en direct</strong> — « Où faire un massage kobido à Paris ? » dans ChatGPT / Perplexity / Claude : qui est cité, quelles sources.</li>
+    <li><strong>Les 6 pages</strong> — <code>pages/index.html</code> : structure, FAQ, JSON-LD visible dans le code source.</li>
+    <li><strong>Le scénario Make</strong> — exécution manuelle : la ligne du Sheet passe « À générer » → « Généré », l'e-mail et le message Telegram arrivent.</li>
+  </ol>
+  <div class="quote">Conclusion : le GEO n'est pas une nouvelle discipline magique — c'est du SEO qui assume que le lecteur est parfois une machine. <strong>Structurer, chiffrer, dater, ouvrir ses crawlers</strong> : Seasonly a le produit et la légitimité ; il ne lui manquait que la couche citable. Elle existe désormais.</div>
+  <p style="margin-top:18px;font-family:Georgia,serif;font-size:22px;color:var(--deep)">Merci — questions bienvenues 🌿</p>
+</section>
+
+<div class="footer">
+  <span>Seasonly × GEO — pitch deck</span>
+  <span><span id="counter">1 / 9</span>
+    <button onclick="nav(-1)">◀</button><button onclick="nav(1)">▶</button>
+  </span>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+function show(){slides.forEach((s,k)=>s.classList.toggle('active',k===i));document.getElementById('counter').textContent=(i+1)+' / '+slides.length}
+function nav(d){i=Math.min(slides.length-1,Math.max(0,i+d));show()}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')nav(1);if(e.key==='ArrowLeft')nav(-1)});
+show();
+</script>
+</body>
+</html>

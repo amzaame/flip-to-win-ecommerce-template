@@ -1,0 +1,125 @@
+{
+  "name": "Seasonly — Robot éditorial SEO (30 min)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "notes": "Remplacé par le Scheduling du scénario : Every 30 minutes. Aucun webhook requis."
+      }
+    },
+    {
+      "id": 2,
+      "module": "google-sheets:searchRows",
+      "version": 2,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "spreadsheetId": "<ID_DU_SHEET_ARTICLES_SEO_SEASONLY>",
+        "sheetId": "Articles",
+        "filter": [[{ "a": "F", "b": "À générer", "o": "text:equal" }]],
+        "sortOrder": "asc",
+        "orderBy": "E",
+        "limit": "1"
+      },
+      "metadata": { "designer": { "x": 300, "y": 0 }, "notes": "Prend le prochain sujet à générer. Colonnes : A=Titre B=Résumé C=Mots clés D=Objectif E=Date F=Statut G=Lien Doc" }
+    },
+    {
+      "id": 3,
+      "module": "anthropic-claude:createMessage",
+      "version": 1,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "model": "claude-sonnet-5",
+        "max_tokens": "4096",
+        "system": "Tu es rédacteur SEO senior pour Seasonly, marque française de soins visage naturels (95 % d'ingrédients naturels, vegan, fondée en 2018) et réseau de Skin Studios de facialisme (Paris, Aix-en-Provence, Bordeaux, dès 65 €).\n\nRègles d'écriture (patterns GEO) :\n- Commencer par un résumé de 3 phrases qui répond directement à la question du titre\n- Structure H2/H3 claire, listes à puces, une donnée chiffrée par section minimum\n- Terminer par une FAQ de 3 questions/réponses courtes\n- Ton expert et honnête : jamais de promesse miracle, mentionner les limites\n- 700 à 900 mots, en français\n- Mentionner Seasonly naturellement 2 fois maximum\n\nRéponds UNIQUEMENT en JSON valide, sans backticks :\n{\"titre\": \"...\", \"resume\": \"...\", \"mots_cles\": \"kw1, kw2, kw3, kw4, kw5\", \"article\": \"markdown\"}",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Sujet : {{2.`A`}}\nObjectif marketing : {{2.`D`}}\nDate du jour : {{formatDate(now; \"DD/MM/YYYY\")}} (adapte les conseils à la saison)"
+          }
+        ]
+      },
+      "metadata": { "designer": { "x": 600, "y": 0 }, "notes": "Génération de l'article. Alternative éco : claude-haiku-4-5." }
+    },
+    {
+      "id": 4,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "parameters": {},
+      "mapper": { "json": "{{3.text}}" },
+      "metadata": { "designer": { "x": 900, "y": 0 } }
+    },
+    {
+      "id": 5,
+      "module": "google-docs:createADocument",
+      "version": 1,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "name": "{{4.titre}}",
+        "content": "{{4.article}}",
+        "folderId": "<ID_DOSSIER_DRIVE_ARTICLES>"
+      },
+      "metadata": { "designer": { "x": 1200, "y": 0 }, "notes": "Brouillon rangé dans Drive/Seasonly/Articles SEO" }
+    },
+    {
+      "id": 6,
+      "module": "google-sheets:updateRow",
+      "version": 2,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "spreadsheetId": "<ID_DU_SHEET_ARTICLES_SEO_SEASONLY>",
+        "sheetId": "Articles",
+        "rowNumber": "{{2.__ROW_NUMBER__}}",
+        "values": {
+          "B": "{{4.resume}}",
+          "C": "{{4.mots_cles}}",
+          "E": "{{formatDate(now; \"DD/MM/YYYY HH:mm\")}}",
+          "F": "Généré",
+          "G": "{{5.webViewLink}}"
+        }
+      },
+      "metadata": { "designer": { "x": 1500, "y": 0 } }
+    },
+    {
+      "id": 7,
+      "module": "google-email:ActionSendEmail",
+      "version": 2,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "to": ["equipe-marketing@seasonly.fr"],
+        "subject": "✅ Nouvel article SEO généré : {{4.titre}}",
+        "contentType": "text",
+        "text": "Un nouvel article vient d'être généré par le robot éditorial Seasonly.\n\nTitre : {{4.titre}}\nRésumé : {{4.resume}}\nMots clés : {{4.mots_cles}}\nObjectif : {{2.`D`}}\nStatut : Généré — en attente de relecture\nGoogle Doc : {{5.webViewLink}}\n\nProchaine génération dans 30 minutes."
+      },
+      "metadata": { "designer": { "x": 1800, "y": -80 } }
+    },
+    {
+      "id": 8,
+      "module": "telegram:SendReplyMessage",
+      "version": 1,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "chatId": "<CHAT_ID_GROUPE_PROJET>",
+        "text": "📝 {{4.titre}}\n\n{{4.resume}}\n\n🔑 {{4.mots_cles}}\n📄 {{5.webViewLink}}"
+      },
+      "metadata": { "designer": { "x": 1800, "y": 80 } }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "sequential": false,
+      "scheduling": { "type": "interval", "interval": 1800 },
+      "notes": "Toutes les 30 min : lit le prochain sujet 'À générer' du Google Sheet, génère l'article avec Claude, crée le Google Doc, met à jour la ligne (Résumé/Mots clés/Date/Statut) et notifie par Gmail + Telegram. Après import : reconnecter Google Sheets, Anthropic, Google Docs, Gmail, Telegram et remplacer les placeholders <...>."
+    },
+    "designer": { "orphans": [] }
+  }
+}
